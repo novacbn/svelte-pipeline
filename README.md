@@ -133,32 +133,33 @@ store_svelte.set(COMPONENT);
 Open your terminal and install via `npm`:
 
 ```sh
-~~NOT AVAILABLE YET~~
+npm install git+https://github.com/novacbn/svelte-pipeline#0.0.1
 ```
 
 Install current in-development code:
 
 ```sh
-~~NOT AVAILABLE YET~~
+npm install git+https://github.com/novacbn/svelte-pipeline
 ```
 
 ### Documentation
 
-See TypeDoc documentation at ~~NOT AVAILABLE YET~~
+See TypeDoc documentation at [novacbn.github.io/svelte-pipeline](https://novacbn.github.io/svelte-pipeline/)
 
 ### API
 
 -   Stores
 
-    -   `pipeline_javascript`
-    -   `pipeline_svelte`
+    -   [`pipeline_javascript`](https://novacbn.github.io/svelte-pipeline/modules/_javascript_.html#pipeline_javascript)
+    -   [`pipeline_svelte`](https://novacbn.github.io/svelte-pipeline/modules/_svelte_.html#pipeline_svelte)
 
 -   Enumerations
 
-    -   `PIPELINE_RESULT_TYPES`
+    -   [`PIPELINE_RESULT_TYPES`](https://novacbn.github.io/svelte-pipeline/enums/_pipeline_.pipeline_result_types.html)
 
--   Functions
+-   Utilities
 
-    -   `evaluate_code`
-    -   `make_require`
-    -   `validate_code`
+    -   [`evaluate_code`](https://novacbn.github.io/svelte-pipeline/modules/_pipeline_.html#evaluate_code)
+    -   [`make_require`](https://novacbn.github.io/svelte-pipeline/modules/_pipeline_.html#make_require)
+    -   [`validate_code`](https://novacbn.github.io/svelte-pipeline/modules/_pipeline_.html#validate_code)
+    -   [`validate_svelte`](https://novacbn.github.io/svelte-pipeline/modules/_svelte_.html#validate_svelte)
