@@ -1,7 +1,7 @@
 {
     "name": "svelte-pipeline",
     "description": "Provides custom Javascript contexts and the Svelte Compiler as Svelte Stores, for REPLs, Editors, etc.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "novacbn",
     "main": "lib/index.js",
     "module": "dist/esm/index.js",
