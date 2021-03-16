@@ -12,11 +12,19 @@ import type {
     IPipelineError,
     IPipelineImports,
     IPipelineModule,
-    IPipelineSuccess,
+    IPipelineEvaluated,
     IPipelineStore,
     IPipelineOptions,
+    IPipelineValidated,
 } from "./pipeline";
-import {PIPELINE_RESULT_TYPES, evaluate_code, make_require, validate_code} from "./pipeline";
+
+import {
+    PIPELINE_MODES,
+    PIPELINE_RESULT_TYPES,
+    evaluate_code,
+    make_require,
+    validate_code,
+} from "./pipeline";
 
 import {PIPELINE_JAVASCRIPT_CONTEXT, PIPELINE_JAVASCRIPT_IMPORTS} from "./javascript";
 
@@ -41,7 +49,7 @@ export interface IPipelineSvelteOptions extends IPipelineOptions {
     compiler: CompileOptions;
 }
 
-export interface IPipelineSvelteSuccess extends IPipelineSuccess<ISvelteExport> {
+export interface IPipelineSvelteEvaluated extends IPipelineEvaluated<ISvelteExport> {
     stylesheet: string;
 }
 
@@ -73,10 +81,11 @@ const PIPELINE_SVELTE_IMPORTS: IPipelineImports = {
 function PipelineSvelteOptions(
     options: Partial<IPipelineSvelteOptions> = {}
 ): IPipelineSvelteOptions {
-    const {compiler = {}, context = {}, imports = {}} = options;
+    const {compiler = {}, context = {}, imports = {}, mode = PIPELINE_MODES.evaluate} = options;
     const require = make_require({...PIPELINE_SVELTE_IMPORTS, ...imports});
 
     return {
+        mode,
         imports: {},
         compiler: {
             ...compiler,
@@ -107,26 +116,35 @@ export function validate_svelte(script: string): [boolean, string?] {
 }
 
 export function pipeline_svelte(options?: Partial<IPipelineSvelteOptions>): IPipelineSvelteStore {
-    const {compiler, context} = PipelineSvelteOptions(options);
+    const {compiler, context, mode} = PipelineSvelteOptions(options);
     const writable_store = writable<string>("");
 
     const derived_store = derived(writable_store, (script: string) => {
         if (!script) return null;
 
+        // TODO: Return warnings
         let [validated, message] = validate_svelte(script);
+
         if (!validated) return {message, type: PIPELINE_RESULT_TYPES.error} as IPipelineError;
+        if (mode === PIPELINE_MODES.validate) {
+            return {type: PIPELINE_RESULT_TYPES.validated} as IPipelineValidated;
+        }
 
         const {css, js} = compile(script, compiler);
 
         [validated, message] = validate_code(js.code);
         if (!validated) return {message, type: PIPELINE_RESULT_TYPES.error} as IPipelineError;
 
-        const module = evaluate_code(js.code, context);
+        const [evaluated, module] = evaluate_code(js.code, context);
+        if (!evaluated) {
+            return {message: module, type: PIPELINE_RESULT_TYPES.error} as IPipelineError;
+        }
+
         return {
             module,
             stylesheet: css.code,
-            type: PIPELINE_RESULT_TYPES.success,
-        } as IPipelineSvelteSuccess;
+            type: PIPELINE_RESULT_TYPES.evaluated,
+        } as IPipelineSvelteEvaluated;
     });
 
     return {

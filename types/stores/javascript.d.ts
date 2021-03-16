@@ -1,4 +1,4 @@
-import type { IPipelineContext, IPipelineImports, IPipelineModule, IPipelineOptions, IPipelineStore, IPipelineSuccess } from "./pipeline";
+import type { IPipelineContext, IPipelineImports, IPipelineModule, IPipelineOptions, IPipelineStore, IPipelineEvaluated } from "./pipeline";
 declare type IJavascriptExport = {
     [key: string]: any;
 };
@@ -6,7 +6,7 @@ export interface IPipelineJavascriptModule extends IPipelineModule<IJavascriptEx
 }
 export interface IPipelineJavascriptOptions extends IPipelineOptions {
 }
-export interface IPipelineJavascriptSuccess extends IPipelineSuccess<IJavascriptExport> {
+export interface IPipelineJavascriptEvaluated extends IPipelineEvaluated<IJavascriptExport> {
 }
 export interface IPipelineJavascriptStore extends IPipelineStore<IJavascriptExport> {
 }

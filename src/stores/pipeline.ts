@@ -1,12 +1,18 @@
 import type {Readable} from "svelte/store";
 
+export enum PIPELINE_MODES {
+    evaluate = "MODE_EVALUATE",
+
+    validate = "MODE_VALIDATE",
+}
+
 export enum PIPELINE_RESULT_TYPES {
     error = "RESULT_ERROR",
 
-    success = "RESULT_SUCCESS",
-}
+    evaluated = "RESULT_EVALUATED",
 
-export type IPipelineEvalutated = () => any;
+    validated = "RESULT_VALIDATED",
+}
 
 export type IPipelineRequire = (name: string) => any;
 
@@ -28,10 +34,18 @@ export interface IPipelineOptions {
     context: IPipelineContext;
 
     imports: IPipelineImports;
+
+    mode: PIPELINE_MODES;
 }
 
 export interface IPipelineResult {
     type: PIPELINE_RESULT_TYPES;
+}
+
+export interface IPipelineEvaluated<T> extends IPipelineResult {
+    module: IPipelineModule<T>;
+
+    type: PIPELINE_RESULT_TYPES.evaluated;
 }
 
 export interface IPipelineError extends IPipelineResult {
@@ -40,15 +54,14 @@ export interface IPipelineError extends IPipelineResult {
     type: PIPELINE_RESULT_TYPES.error;
 }
 
-export interface IPipelineSuccess<T> extends IPipelineResult {
-    module: IPipelineModule<T>;
-
-    type: PIPELINE_RESULT_TYPES.success;
+export interface IPipelineValidated extends IPipelineResult {
+    type: PIPELINE_RESULT_TYPES.validated;
 }
 
 // HACK: Since the `Writable` uses the `T` generic for I/O on `set` / `update`, we
 // need to just redefine it here ourselves
-export interface IPipelineStore<T> extends Readable<IPipelineError | IPipelineSuccess<T> | null> {
+export interface IPipelineStore<T>
+    extends Readable<IPipelineError | IPipelineEvaluated<T> | IPipelineValidated | null> {
     set(value: string): void;
 
     update(updater: IPipelineUpdater): void;
@@ -57,7 +70,7 @@ export interface IPipelineStore<T> extends Readable<IPipelineError | IPipelineSu
 export function evaluate_code<T = any>(
     script: string,
     context: IPipelineContext
-): IPipelineModule<T> {
+): [boolean, IPipelineModule<T> | string] {
     const keys = Object.keys(context);
     const values = Object.values(context);
 
@@ -66,18 +79,23 @@ export function evaluate_code<T = any>(
 
     Object.seal(module);
 
-    const func = new Function(
-        ...keys,
-        "module",
-        "exports",
-        `return (function () {
-        "use strict";
-        ${script}
-})`
-    )(...values, module, module.exports);
+    try {
+        const func = new Function(
+            ...keys,
+            "module",
+            "exports",
+            `return (function () {
+                "use strict";
+                ${script}
+            })`
+        )(...values, module, module.exports);
 
-    func();
-    return module;
+        func();
+    } catch (err) {
+        return [false, err.message];
+    }
+
+    return [true, module];
 }
 
 export function make_require(imports: IPipelineImports = {}): IPipelineRequire {
