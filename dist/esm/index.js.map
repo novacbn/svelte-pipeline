@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["src/index.ts"],
-  "sourcesContent": ["export type {\n    IPipelineContext,\n    IPipelineError,\n    IPipelineEvalutated,\n    IPipelineImports,\n    IPipelineModule,\n    IPipelineRequire,\n    IPipelineResult,\n    IPipelineOptions,\n    IPipelineStore,\n    IPipelineSuccess,\n    IPipelineUpdater,\n} from \"./stores/pipeline\";\nexport {PIPELINE_RESULT_TYPES, evaluate_code, make_require, validate_code} from \"./stores/pipeline\";\n\nexport type {\n    IPipelineJavascriptModule,\n    IPipelineJavascriptOptions,\n    IPipelineJavascriptStore,\n    IPipelineJavascriptSuccess,\n} from \"./stores/javascript\";\nexport {pipeline_javascript} from \"./stores/javascript\";\n\nexport type {\n    IPipelineSvelteModule,\n    IPipelineSvelteOptions,\n    IPipelineSvelteStore,\n    IPipelineSvelteSuccess,\n} from \"./stores/svelte\";\nexport {pipeline_svelte} from \"./stores/svelte\";\n"],
-  "mappings": "AAaA;AAQA;AAQA;",
+  "sourcesContent": ["export type {\n    IPipelineContext,\n    IPipelineError,\n    IPipelineEvaluated,\n    IPipelineImports,\n    IPipelineModule,\n    IPipelineRequire,\n    IPipelineResult,\n    IPipelineOptions,\n    IPipelineStore,\n    IPipelineUpdater,\n    IPipelineValidated,\n} from \"./stores/pipeline\";\nexport {\n    PIPELINE_MODES,\n    PIPELINE_RESULT_TYPES,\n    evaluate_code,\n    make_require,\n    validate_code,\n} from \"./stores/pipeline\";\n\nexport type {\n    IPipelineJavascriptEvaluated,\n    IPipelineJavascriptModule,\n    IPipelineJavascriptOptions,\n    IPipelineJavascriptStore,\n} from \"./stores/javascript\";\nexport {pipeline_javascript} from \"./stores/javascript\";\n\nexport type {\n    IPipelineSvelteEvaluated,\n    IPipelineSvelteModule,\n    IPipelineSvelteOptions,\n    IPipelineSvelteStore,\n} from \"./stores/svelte\";\nexport {pipeline_svelte} from \"./stores/svelte\";\n"],
+  "mappings": "AAaA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAcA;AAQA;",
   "names": []
 }

@@ -1,11 +1,18 @@
 import {derived, writable} from "svelte/store";
-import {PIPELINE_RESULT_TYPES, evaluate_code, make_require, validate_code} from "./pipeline";
+import {
+  PIPELINE_MODES,
+  PIPELINE_RESULT_TYPES,
+  evaluate_code,
+  make_require,
+  validate_code
+} from "./pipeline";
 const PIPELINE_JAVASCRIPT_CONTEXT = {};
 const PIPELINE_JAVASCRIPT_IMPORTS = {};
 function PipelineOptions(options = {}) {
-  const {context = {}, imports = {}} = options;
+  const {context = {}, imports = {}, mode = PIPELINE_MODES.evaluate} = options;
   const require2 = make_require({...PIPELINE_JAVASCRIPT_IMPORTS, ...imports});
   return {
+    mode,
     imports: {},
     context: {
       ...PIPELINE_JAVASCRIPT_CONTEXT,
@@ -15,7 +22,7 @@ function PipelineOptions(options = {}) {
   };
 }
 function pipeline_javascript(options) {
-  const {context} = PipelineOptions(options);
+  const {context, mode} = PipelineOptions(options);
   const writable_store = writable("");
   const derived_store = derived(writable_store, (script) => {
     if (!script)
@@ -23,8 +30,17 @@ function pipeline_javascript(options) {
     const [validated, message] = validate_code(script);
     if (!validated)
       return {message, type: PIPELINE_RESULT_TYPES.error};
-    const module = evaluate_code(script, context);
-    return {module, type: PIPELINE_RESULT_TYPES.success};
+    if (mode === PIPELINE_MODES.validate) {
+      return {type: PIPELINE_RESULT_TYPES.validated};
+    }
+    const [evaluated, module] = evaluate_code(script, context);
+    if (!evaluated) {
+      return {message: module, type: PIPELINE_RESULT_TYPES.error};
+    }
+    return {
+      module,
+      type: PIPELINE_RESULT_TYPES.evaluated
+    };
   });
   return {
     set: writable_store.set,

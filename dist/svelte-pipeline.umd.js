@@ -852,6 +852,7 @@ var SveltePipeline = (() => {
   // src/index.ts
   var require_src = __commonJS((exports) => {
     __export(exports, {
+      PIPELINE_MODES: () => PIPELINE_MODES,
       PIPELINE_RESULT_TYPES: () => PIPELINE_RESULT_TYPES,
       evaluate_code: () => evaluate_code,
       make_require: () => make_require,
@@ -862,22 +863,32 @@ var SveltePipeline = (() => {
   });
 
   // src/stores/pipeline.ts
+  var PIPELINE_MODES;
+  (function(PIPELINE_MODES2) {
+    PIPELINE_MODES2["evaluate"] = "MODE_EVALUATE";
+    PIPELINE_MODES2["validate"] = "MODE_VALIDATE";
+  })(PIPELINE_MODES || (PIPELINE_MODES = {}));
   var PIPELINE_RESULT_TYPES;
   (function(PIPELINE_RESULT_TYPES2) {
     PIPELINE_RESULT_TYPES2["error"] = "RESULT_ERROR";
-    PIPELINE_RESULT_TYPES2["success"] = "RESULT_SUCCESS";
+    PIPELINE_RESULT_TYPES2["evaluated"] = "RESULT_EVALUATED";
+    PIPELINE_RESULT_TYPES2["validated"] = "RESULT_VALIDATED";
   })(PIPELINE_RESULT_TYPES || (PIPELINE_RESULT_TYPES = {}));
   function evaluate_code(script, context2) {
     const keys = Object.keys(context2);
     const values = Object.values(context2);
     const module = {exports: {}};
     Object.seal(module);
-    const func = new Function(...keys, "module", "exports", `return (function () {
-        "use strict";
-        ${script}
-})`)(...values, module, module.exports);
-    func();
-    return module;
+    try {
+      const func = new Function(...keys, "module", "exports", `return (function () {
+                "use strict";
+                ${script}
+            })`)(...values, module, module.exports);
+      func();
+    } catch (err) {
+      return [false, err.message];
+    }
+    return [true, module];
   }
   function make_require(imports = {}) {
     return (name) => {
@@ -2717,9 +2728,10 @@ var SveltePipeline = (() => {
   const PIPELINE_JAVASCRIPT_CONTEXT = {};
   const PIPELINE_JAVASCRIPT_IMPORTS = {};
   function PipelineOptions(options = {}) {
-    const {context: context2 = {}, imports = {}} = options;
+    const {context: context2 = {}, imports = {}, mode = PIPELINE_MODES.evaluate} = options;
     const require2 = make_require({...PIPELINE_JAVASCRIPT_IMPORTS, ...imports});
     return {
+      mode,
       imports: {},
       context: {
         ...PIPELINE_JAVASCRIPT_CONTEXT,
@@ -2729,7 +2741,7 @@ var SveltePipeline = (() => {
     };
   }
   function pipeline_javascript(options) {
-    const {context: context2} = PipelineOptions(options);
+    const {context: context2, mode} = PipelineOptions(options);
     const writable_store = writable("");
     const derived_store = derived(writable_store, (script) => {
       if (!script)
@@ -2737,8 +2749,17 @@ var SveltePipeline = (() => {
       const [validated, message] = validate_code(script);
       if (!validated)
         return {message, type: PIPELINE_RESULT_TYPES.error};
-      const module = evaluate_code(script, context2);
-      return {module, type: PIPELINE_RESULT_TYPES.success};
+      if (mode === PIPELINE_MODES.validate) {
+        return {type: PIPELINE_RESULT_TYPES.validated};
+      }
+      const [evaluated, module] = evaluate_code(script, context2);
+      if (!evaluated) {
+        return {message: module, type: PIPELINE_RESULT_TYPES.error};
+      }
+      return {
+        module,
+        type: PIPELINE_RESULT_TYPES.evaluated
+      };
     });
     return {
       set: writable_store.set,
@@ -26865,9 +26886,10 @@ ${frame}`
     "svelte/store": store_exports
   };
   function PipelineSvelteOptions(options = {}) {
-    const {compiler: compiler2 = {}, context: context2 = {}, imports = {}} = options;
+    const {compiler: compiler2 = {}, context: context2 = {}, imports = {}, mode = PIPELINE_MODES.evaluate} = options;
     const require2 = make_require({...PIPELINE_SVELTE_IMPORTS, ...imports});
     return {
+      mode,
       imports: {},
       compiler: {
         ...compiler2,
@@ -26894,7 +26916,7 @@ ${frame}`
     return [true];
   }
   function pipeline_svelte(options) {
-    const {compiler: compiler2, context: context2} = PipelineSvelteOptions(options);
+    const {compiler: compiler2, context: context2, mode} = PipelineSvelteOptions(options);
     const writable_store = writable2("");
     const derived_store = derived2(writable_store, (script) => {
       if (!script)
@@ -26902,15 +26924,21 @@ ${frame}`
       let [validated, message] = validate_svelte(script);
       if (!validated)
         return {message, type: PIPELINE_RESULT_TYPES.error};
+      if (mode === PIPELINE_MODES.validate) {
+        return {type: PIPELINE_RESULT_TYPES.validated};
+      }
       const {css, js} = compile(script, compiler2);
       [validated, message] = validate_code(js.code);
       if (!validated)
         return {message, type: PIPELINE_RESULT_TYPES.error};
-      const module = evaluate_code(js.code, context2);
+      const [evaluated, module] = evaluate_code(js.code, context2);
+      if (!evaluated) {
+        return {message: module, type: PIPELINE_RESULT_TYPES.error};
+      }
       return {
         module,
         stylesheet: css.code,
-        type: PIPELINE_RESULT_TYPES.success
+        type: PIPELINE_RESULT_TYPES.evaluated
       };
     });
     return {

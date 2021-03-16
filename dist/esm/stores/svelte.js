@@ -2,7 +2,13 @@ import * as svelte from "svelte";
 import {compile} from "svelte/compiler";
 import * as svelte_internal from "svelte/internal";
 import * as svelte_store from "svelte/store";
-import {PIPELINE_RESULT_TYPES, evaluate_code, make_require, validate_code} from "./pipeline";
+import {
+  PIPELINE_MODES,
+  PIPELINE_RESULT_TYPES,
+  evaluate_code,
+  make_require,
+  validate_code
+} from "./pipeline";
 import {PIPELINE_JAVASCRIPT_CONTEXT, PIPELINE_JAVASCRIPT_IMPORTS} from "./javascript";
 const {
   onDestroy,
@@ -36,9 +42,10 @@ const PIPELINE_SVELTE_IMPORTS = {
   "svelte/store": svelte_store
 };
 function PipelineSvelteOptions(options = {}) {
-  const {compiler: compiler2 = {}, context = {}, imports = {}} = options;
+  const {compiler: compiler2 = {}, context = {}, imports = {}, mode = PIPELINE_MODES.evaluate} = options;
   const require2 = make_require({...PIPELINE_SVELTE_IMPORTS, ...imports});
   return {
+    mode,
     imports: {},
     compiler: {
       ...compiler2,
@@ -65,7 +72,7 @@ function validate_svelte(script) {
   return [true];
 }
 function pipeline_svelte(options) {
-  const {compiler: compiler2, context} = PipelineSvelteOptions(options);
+  const {compiler: compiler2, context, mode} = PipelineSvelteOptions(options);
   const writable_store = writable("");
   const derived_store = derived(writable_store, (script) => {
     if (!script)
@@ -73,15 +80,21 @@ function pipeline_svelte(options) {
     let [validated, message] = validate_svelte(script);
     if (!validated)
       return {message, type: PIPELINE_RESULT_TYPES.error};
+    if (mode === PIPELINE_MODES.validate) {
+      return {type: PIPELINE_RESULT_TYPES.validated};
+    }
     const {css, js} = compile(script, compiler2);
     [validated, message] = validate_code(js.code);
     if (!validated)
       return {message, type: PIPELINE_RESULT_TYPES.error};
-    const module = evaluate_code(js.code, context);
+    const [evaluated, module] = evaluate_code(js.code, context);
+    if (!evaluated) {
+      return {message: module, type: PIPELINE_RESULT_TYPES.error};
+    }
     return {
       module,
       stylesheet: css.code,
-      type: PIPELINE_RESULT_TYPES.success
+      type: PIPELINE_RESULT_TYPES.evaluated
     };
   });
   return {
