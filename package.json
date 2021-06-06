@@ -1,44 +1,48 @@
 {
     "name": "svelte-pipeline",
-    "description": "Provides custom Javascript contexts and the Svelte Compiler as Svelte Stores, for REPLs, Editors, etc.",
-    "version": "0.0.2",
+    "description": "Provides custom Javascript evaluation contexts and the Svelte Compiler as Svelte Stores, for REPLs, IDEs, etc.",
+    "version": "0.1.0",
     "author": "novacbn",
-    "main": "lib/index.js",
-    "module": "dist/esm/index.js",
-    "global": "SveltePipeline",
-    "typings": "types/index.d.ts",
+    "type": "module",
+    "main": "package/index.js",
+    "typings": "package/types/index.d.ts",
+    "exports": {
+        ".": "./package/index.js",
+        "./repl": "./repl.js"
+    },
     "keywords": [
         "compiler",
         "repl",
         "svelte",
+        "svelte-components",
         "svelte-store"
     ],
     "files": [
-        "dist",
-        "lib",
-        "types"
+        "package/components",
+        "package/repl",
+        "package/stores",
+        "package/types",
+        "package/index.js",
+        "package.json",
+        "index.d.ts"
     ],
     "scripts": {
-        "build:lib": "node ./scripts/build.js",
+        "build": "npm run test:types && npm run build:lib && npm run build:types",
+        "build:lib": "svelte-kit package",
         "build:types": "tsc --emitDeclarationOnly",
-        "build:typedoc": "typedoc --out ./dist/docs --exclude '**/index.ts' --stripInternal --target es6 --theme minimal --mode modules src",
-        "test:types": "tsc --noEmit",
-        "prebuild:clean": "rimraf ./dist;rimraf ./lib"
+        "build:typedoc": "typedoc --out ./package/docs/api --exclude '**/index.ts' --stripInternal --target es6 --theme minimal --mode modules src",
+        "test:types": "tsc --noEmit"
     },
     "dependencies": {
-        "svelte": "^3.30.0",
-        "url": "^0.11.0"
+        "svelte": "^3.38.2",
+        "svelte-codejar": "github:novacbn/svelte-codejar#0.0.3"
     },
     "devDependencies": {
-        "@types/estree": "0.0.45",
-        "@types/glob-to-regexp": "^0.4.0",
-        "esbuild": "^0.7.5",
-        "estree-walker": "^2.0.1",
-        "glob": "^7.1.6",
-        "magic-string": "^0.25.7",
+        "@sveltejs/kit": "^1.0.0-next.113",
+        "@tsconfig/svelte": "^2.0.1",
         "prettier": "^2.0.5",
-        "rimraf": "^3.0.2",
-        "typedoc": "^0.19.2",
-        "typescript": "^4.0.3"
+        "svelte-preprocess": "^4.7.3",
+        "tslib": "^2.2.0",
+        "typescript": "^4.3.2"
     }
 }
