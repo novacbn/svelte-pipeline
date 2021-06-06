@@ -24,7 +24,9 @@
         "package/types",
         "package/index.js",
         "package.json",
-        "index.d.ts"
+        "index.d.ts",
+        "repl.js",
+        "repl.d.ts"
     ],
     "scripts": {
         "build": "npm run test:types && npm run build:lib && npm run build:types",
