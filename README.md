@@ -6,7 +6,7 @@ Provides custom Javascript contexts and the Svelte Compiler as Svelte Stores, fo
 
 > **NOTE**: As this package includes the Svelte Compiler as a dependency, it seriously balloons the size of the distributables and bundles.
 
-## Sample
+## Usage
 
 ### Javascript
 
@@ -126,6 +126,12 @@ store_svelte.subscribe((result) => {
 store_svelte.set(COMPONENT);
 ```
 
+## REPLs
+
+### Split
+
+> TODO: Sample using `import {Split} from "svelte-pipeline/repl";`
+
 ## Developer
 
 ### Installation
@@ -144,7 +150,7 @@ npm install github:novacbn/svelte-pipeline
 
 ### Documentation
 
-See TypeDoc documentation at [novacbn.github.io/svelte-pipeline/api](https://novacbn.github.io/svelte-pipeline/api)
+See TypeDoc documentation at [novacbn.github.io/svelte-pipeline](https://novacbn.github.io/svelte-pipeline)
 
 ### API
 

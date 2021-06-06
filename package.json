@@ -15,7 +15,7 @@
         "repl",
         "svelte",
         "svelte-components",
-        "svelte-store"
+        "svelte-stores"
     ],
     "files": [
         "package/components",
