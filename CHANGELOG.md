@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.1 - UNRELEASED
+
+-   Updated the following Components
+
+    -   `<REPLRender dev={boolean} />` / `<REPLSplit dev={boolean} />` — Turns the Svelte compiler dev builds on
+
 ## v0.1.0 - 06/05/2021
 
 -   Added new Components
