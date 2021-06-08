@@ -5,6 +5,7 @@
 -   Updated the following Components
 
     -   `<REPLRender dev={boolean} />` / `<REPLSplit dev={boolean} />` — Turns the Svelte compiler dev builds on
+    -   `<REPLSplit>` — Added support for touch input moving the split divider
 
 ## v0.1.0 - 06/05/2021
 
