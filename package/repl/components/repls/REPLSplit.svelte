@@ -19,6 +19,7 @@
 
     export let highlightElement: IEditorHighlightElement;
 
+    export let dev: boolean = false;
     export let context: IPipelineContext = {};
     export let imports: IPipelineImports = {};
 
@@ -81,7 +82,7 @@
     {/if}
 
     <REPLFrame class="repl-frame-render" hidden={view === REPL_VIEWS.editor}>
-        <REPLRender {context} {imports} {value} on:error on:evaluate on:renderUpdate>
+        <REPLRender {dev} {context} {imports} {value} on:error on:evaluate on:renderUpdate>
             <slot name="render-loading" />
         </REPLRender>
     </REPLFrame>

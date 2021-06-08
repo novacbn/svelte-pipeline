@@ -17,13 +17,15 @@
 
     export let element: HTMLElement | undefined = undefined;
 
+    export let dev: boolean = false;
     export let context: IPipelineContext = {};
     export let imports: IPipelineImports = {};
     export let value: string = "";
 
     $: store = pipeline_svelte({
         compiler: {
-            dev: false,
+            dev,
+            generate: "dom",
             name: "App",
             filename: "App.svelte",
         },
