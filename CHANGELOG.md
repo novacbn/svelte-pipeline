@@ -4,6 +4,7 @@
 
 -   Updated the following Components
 
+    -   `<REPLEditor>` — Added line numbers
     -   `<REPLRender dev={boolean} />` / `<REPLSplit dev={boolean} />` — Turns the Svelte compiler dev builds on
     -   `<REPLSplit>` — Added support for touch input moving the split divider
 

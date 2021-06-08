@@ -33,6 +33,7 @@
         style={style ? style : undefined}
         bind:value
         {highlightElement}
+        withLineNumbers
     />
 {:else}
     <slot>Loading code editor...</slot>
