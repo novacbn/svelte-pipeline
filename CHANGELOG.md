@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.1.1 - UNRELEASED
+## v0.1.1 - 2021/06/08
 
 -   Updated the following Components
 
@@ -25,7 +25,7 @@
         -   Added support for manual styling via `<REPLSplit class="XXX">` / `<REPLSplit style="XXX">`
         -   Updated to reflect new events
 
-## v0.1.0 - 06/05/2021
+## v0.1.0 - 2021/06/05
 
 -   Added new Components
 

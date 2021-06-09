@@ -1,7 +1,7 @@
 {
     "name": "svelte-pipeline",
     "description": "Provides custom Javascript evaluation contexts and the Svelte Compiler as Svelte Stores, for REPLs, IDEs, etc.",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "author": "novacbn",
     "type": "module",
     "main": "package/index.js",
