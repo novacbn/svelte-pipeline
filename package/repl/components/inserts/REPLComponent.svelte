@@ -1,6 +1,6 @@
 <script lang="ts">
     import type {SvelteComponent} from "svelte";
-    import {createEventDispatcher} from "svelte";
+    import {createEventDispatcher, tick} from "svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -9,24 +9,26 @@
     let component: SvelteComponent | null = null;
     let element: HTMLElement | undefined = undefined;
 
-    $: {
+    async function component_update(Component: typeof SvelteComponent) {
+        await tick();
+        dispatch("componentUpdate");
+
         if (Component && element) {
             if (component) {
                 component.$destroy();
                 component = null;
-                dispatch("componentUpdate");
             }
 
             try {
                 component = new Component({target: element});
                 dispatch("componentMount");
             } catch (err) {
-                dispatch("error", {message: err.message});
+                dispatch("componentError", {message: err.message});
             }
-        }
+        } else dispatch("componentPass");
     }
 
-    $: if (component) component.$set($$props);
+    $: component_update(Component);
 
 </script>
 

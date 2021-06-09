@@ -4,9 +4,26 @@
 
 -   Updated the following Components
 
+    -   `<REPLComponent>`
+
+        -   Updated `componentUpdate` event to be called pre any changes
+        -   Updated to defer to when the Browser is idle to perform mounting and eventing
+        -   Change event names `error` -> `componentError`
+        -   Added `<REPLComponent on:componentPass>` — Called whenever `componentUpdate` is called but no changed are made
+
     -   `<REPLEditor>` — Added line numbers
-    -   `<REPLRender dev={boolean} />` / `<REPLSplit dev={boolean} />` — Turns the Svelte compiler dev builds on
-    -   `<REPLSplit>` — Added support for touch input moving the split divider
+    -   `<REPLRender>`
+
+        -   Added `<REPLRender dev={boolean} />` / `<REPLSplit dev={boolean} />` — Turns the Svelte compiler dev builds on
+        -   Added `<REPLRender on:evaluationPass>` — Called whenever `evaluationUpdate` is called but no changed are made
+        -   Changed event names `renderUpdate` -> `evaluationUpdate`, `error` -> `evaluationError`, `evaluate` -> `evaluationCompile`
+        -   Updated to defer to when the Browser is idle to perform compiling and eventing
+
+    -   `<REPLSplit>`
+
+        -   Added support for touch input moving the split divider
+        -   Added support for manual styling via `<REPLSplit class="XXX">` / `<REPLSplit style="XXX">`
+        -   Updated to reflect new events
 
 ## v0.1.0 - 06/05/2021
 

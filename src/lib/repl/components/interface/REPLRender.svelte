@@ -1,9 +1,15 @@
 <script lang="ts">
     import type {SvelteComponent} from "svelte";
-    import {createEventDispatcher} from "svelte";
+    import {createEventDispatcher, tick} from "svelte";
 
-    import type {IPipelineContext, IPipelineImports} from "../../../stores/pipeline";
+    import type {
+        IPipelineContext,
+        IPipelineError,
+        IPipelineImports,
+        IPipelineValidated,
+    } from "../../../stores/pipeline";
     import {PIPELINE_RESULT_TYPES} from "../../../stores/pipeline";
+    import type {IPipelineSvelteEvaluated} from "../../../stores/svelte";
     import {pipeline_svelte} from "../../../stores/svelte";
 
     import REPLComponent from "../inserts/REPLComponent.svelte";
@@ -35,25 +41,32 @@
     $: if (value) $store = value;
 
     let Component: typeof SvelteComponent | null, stylesheet: string;
-    $: {
-        dispatch("renderUpdate");
+    async function evaluation_update(
+        result: IPipelineSvelteEvaluated | IPipelineError | IPipelineValidated | null
+    ) {
+        // NOTE: Compiling could finish before mount, preventing events being
+        // bubbled up the tree properly. So we need to defer
+        await tick();
+        dispatch("evaluationUpdate");
 
-        const result = $store;
         if (result) {
             if (result.type === PIPELINE_RESULT_TYPES.error) {
                 const {message} = result;
 
-                dispatch("error", {message});
+                dispatch("evaluationError", {message});
             } else if (result.type === PIPELINE_RESULT_TYPES.evaluated) {
                 Component = result.module.exports.default;
                 stylesheet = result.stylesheet;
 
-                dispatch("evaluate", {Component, stylesheet, warnings: []});
+                dispatch("evaluationCompile", {Component, stylesheet, warnings: []});
             }
         } else {
             (Component = null), (stylesheet = "");
+            dispatch("evaluationPass");
         }
     }
+
+    $: evaluation_update($store);
 
 </script>
 
@@ -63,7 +76,13 @@
     {/if}
 
     {#if value && Component}
-        <REPLComponent {Component} on:componentMount on:componentUpdate on:error>
+        <REPLComponent
+            {Component}
+            on:componentError
+            on:componentMount
+            on:componentPass
+            on:componentUpdate
+        >
             <slot />
         </REPLComponent>
     {/if}

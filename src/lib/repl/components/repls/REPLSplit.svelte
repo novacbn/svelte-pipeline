@@ -17,6 +17,10 @@
 
     const dispatch = createEventDispatcher();
 
+    let _class: string = "";
+    export let style: string = "";
+    export {_class as class};
+
     export let highlightElement: IEditorHighlightElement;
 
     export let dev: boolean = false;
@@ -70,7 +74,12 @@
 
 </script>
 
-<REPLStack bind:element={stack} class="repl-split" style={grabbing_style} {horizontal}>
+<REPLStack
+    bind:element={stack}
+    class="repl-split {_class}"
+    style="{style}{grabbing_style}"
+    {horizontal}
+>
     <REPLFrame class="repl-frame-editor" hidden={view === REPL_VIEWS.render} style={split_style}>
         <REPLEditor {highlightElement} bind:value on:editorImported>
             <slot name="editor-loading" />
@@ -82,7 +91,22 @@
     {/if}
 
     <REPLFrame class="repl-frame-render" hidden={view === REPL_VIEWS.editor}>
-        <REPLRender {dev} {context} {imports} {value} on:error on:evaluate on:renderUpdate>
+        <REPLRender
+            {dev}
+            {context}
+            {imports}
+            {value}
+            on:componentError
+            on:componentMount
+            on:componentUpdate
+            on:componentPass
+            on:evaluationError
+            on:evaluationCompile
+            on:evaluationPass
+            on:evaluationUpdate
+            on:stylesheetMount
+            on:stylesheetUpdate
+        >
             <slot name="render-loading" />
         </REPLRender>
     </REPLFrame>
