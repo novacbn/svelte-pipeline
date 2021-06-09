@@ -139,7 +139,7 @@ store_svelte.set(COMPONENT);
 Open your terminal and install via `npm`:
 
 ```sh
-npm install github:novacbn/svelte-pipeline#0.1.0
+npm install github:novacbn/svelte-pipeline#0.1.1
 ```
 
 Install current in-development code:
