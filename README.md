@@ -6,6 +6,10 @@ Provides custom Javascript contexts and the Svelte Compiler as Svelte Stores, fo
 
 > **NOTE**: As this package includes the Svelte Compiler as a dependency, it seriously balloons the size of the distributables and bundles.
 
+## Demo
+
+See a demo of the REPL Components at [kahi-ui.nbn.dev/repl/samples/landing/hero-preview](https://kahi-ui.nbn.dev/repl/samples/landing/hero-preview/?rotation=horizontal)
+
 ## Usage
 
 ### Javascript
