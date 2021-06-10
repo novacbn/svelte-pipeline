@@ -23,8 +23,11 @@
 
 <style>
     :global(.repl-frame) {
-        display: block;
+        display: flex;
         contain: strict;
+
+        align-items: stretch;
+        justify-content: stretch;
 
         min-width: var(--repl-frame-min-width, 15%);
         min-height: var(--repl-frame-min-height, 15%);
@@ -34,6 +37,10 @@
 
     :global(.repl-frame[hidden]) {
         display: none;
+    }
+
+    :global(.repl-frame > *) {
+        flex-grow: 1;
     }
 
 </style>

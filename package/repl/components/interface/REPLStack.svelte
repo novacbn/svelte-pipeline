@@ -13,7 +13,7 @@
     bind:this={element}
     class="repl-stack {_class}"
     data-horizontal={horizontal ? true : undefined}
-    style={style ? style : undefined}
+    {style}
     on:mousedown
     on:mousemove
     on:mouseup

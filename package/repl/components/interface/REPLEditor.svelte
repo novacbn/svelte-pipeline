@@ -1,6 +1,8 @@
 <script lang="ts">
     import type {SvelteComponent} from "svelte";
-    import {createEventDispatcher, onMount} from "svelte";
+    import {createEventDispatcher, onDestroy, onMount} from "svelte";
+
+    import {InnerText} from "../../actions/inner_text";
 
     import type {IEditorHighlightElement} from "../../types/editor";
 
@@ -8,12 +10,22 @@
 
     type CodeJar = SvelteComponent;
 
+    export let element: HTMLElement;
+
     let _class: string = "";
     export let style: string = "";
     export {_class as class};
 
     export let highlightElement: IEditorHighlightElement | undefined = undefined;
     export let value = "";
+
+    function on_innertext(text: string) {
+        value = text;
+    }
+
+    onDestroy(() => {
+        if (handle) handle.destroy();
+    });
 
     let CodeJar: CodeJar;
     onMount(async () => {
@@ -23,16 +35,25 @@
         dispatch("editorImported");
     });
 
+    // HACK: On mobile, for whatever reason, CodeJar (the library not the Svelte Binding), doesn't
+    // update the output value until some form of punctuation is inputted. So we're using a workaround
+    // with a `MutationObserver` instead.
+    //
+    // I would rather integrate this here, rather than `svelte-codejar` proper. Incase the CodeJar library
+    // is fixed and I wouldn't have to message with `svelte-codejar`
+    $: handle = element ? InnerText(element, {on_innertext}) : null;
+
 </script>
 
 {#if CodeJar}
     <svelte:component
         this={CodeJar}
+        bind:element
         class="repl-editor {_class}"
         syntax="html"
         style={style ? style : undefined}
-        bind:value
         {highlightElement}
+        {value}
         withLineNumbers
     />
 {:else}
@@ -40,12 +61,8 @@
 {/if}
 
 <style>
-    :global(.repl-editor),
-    :global(.repl-editor > *) {
+    :global(.repl-editor) {
         margin: 0 !important;
-
-        width: max-content;
-        height: max-content;
 
         min-width: 100%;
         min-height: 100%;

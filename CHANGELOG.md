@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.2 - 2021/06/09
+
+-   Added workaround to `<REPLEditor>` for mobile input
+-   Added element bindings `<XXX bind:element={YYY}>` and styling bindings `<XXX class="YYY" style="ZZZ">` to every REPL Component
+-   Added a `250ms` debounce to compiling incoming Svelte Component code to `<REPLRender>`
+
 ## v0.1.1 - 2021/06/08
 
 -   Updated the following Components

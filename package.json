@@ -1,7 +1,7 @@
 {
     "name": "svelte-pipeline",
     "description": "Provides custom Javascript evaluation contexts and the Svelte Compiler as Svelte Stores, for REPLs, IDEs, etc.",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "author": "novacbn",
     "type": "module",
     "main": "package/index.js",
@@ -37,7 +37,7 @@
     },
     "dependencies": {
         "svelte": "^3.38.2",
-        "svelte-codejar": "github:novacbn/svelte-codejar#0.0.3"
+        "svelte-codejar": "github:novacbn/svelte-codejar#0.0.4"
     },
     "devDependencies": {
         "@sveltejs/kit": "^1.0.0-next.113",

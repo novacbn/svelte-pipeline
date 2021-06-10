@@ -2,12 +2,17 @@
     import type {SvelteComponent} from "svelte";
     import {createEventDispatcher, tick} from "svelte";
 
+    export let element: HTMLElement | undefined = undefined;
+
+    let _class: string = "";
+    export let style: string = "";
+    export {_class as class};
+
     const dispatch = createEventDispatcher();
 
     export let Component: typeof SvelteComponent;
 
     let component: SvelteComponent | null = null;
-    let element: HTMLElement | undefined = undefined;
 
     async function component_update(Component: typeof SvelteComponent) {
         await tick();
@@ -36,7 +41,7 @@
     NOTE: Doing this instead of `<svelte:component>` to support Exception capturing
 -->
 
-<div bind:this={element} class="repl-component">
+<div bind:this={element} class="repl-component {_class}" {style}>
     {#if !component}
         <slot />
     {/if}

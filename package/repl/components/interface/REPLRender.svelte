@@ -11,6 +11,7 @@
     import {PIPELINE_RESULT_TYPES} from "../../../stores/pipeline";
     import type {IPipelineSvelteEvaluated} from "../../../stores/svelte";
     import {pipeline_svelte} from "../../../stores/svelte";
+    import {debounce} from "../../util/functional";
 
     import REPLComponent from "../inserts/REPLComponent.svelte";
     import REPLStylesheet from "../inserts/REPLStylesheet.svelte";
@@ -28,17 +29,9 @@
     export let imports: IPipelineImports = {};
     export let value: string = "";
 
-    $: store = pipeline_svelte({
-        compiler: {
-            dev,
-            generate: "dom",
-            name: "App",
-            filename: "App.svelte",
-        },
-        context,
-        imports,
-    });
-    $: if (value) $store = value;
+    const compiler_update = debounce((value) => {
+        if (value) store.set(value);
+    }, 250);
 
     let Component: typeof SvelteComponent | null, stylesheet: string;
     async function evaluation_update(
@@ -66,11 +59,23 @@
         }
     }
 
+    $: store = pipeline_svelte({
+        compiler: {
+            dev,
+            generate: "dom",
+            name: "App",
+            filename: "App.svelte",
+        },
+        context,
+        imports,
+    });
+
+    $: compiler_update(value);
     $: evaluation_update($store);
 
 </script>
 
-<div bind:this={element} class="repl-render {_class}" style={style ? style : undefined}>
+<div bind:this={element} class="repl-render {_class}" {style}>
     {#if stylesheet}
         <REPLStylesheet value={stylesheet} on:stylesheetMount on:stylesheetUpdate />
     {/if}
