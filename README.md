@@ -8,7 +8,7 @@ Provides custom Javascript contexts and the Svelte Compiler as Svelte Stores, fo
 
 ## Demo
 
-See a demo of the REPL Components at [kahi-ui.nbn.dev/repl/samples/landing/hero-preview](https://kahi-ui.nbn.dev/repl/samples/landing/hero-preview/?rotation=horizontal)
+See a demo of the REPL Components at [kahi-ui.nbn.dev/repl/samples/landing-page/landing-preview](https://kahi-ui.nbn.dev/repl/samples/landing-page/landing-preview/?rotation=horizontal)
 
 ## Usage
 
