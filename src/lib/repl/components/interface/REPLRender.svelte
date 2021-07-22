@@ -73,7 +73,6 @@
 
     $: compiler_update(value);
     $: evaluation_update($store);
-
 </script>
 
 <div bind:this={element} class="repl-render {_class}" {style}>
@@ -98,5 +97,4 @@
     :global(.repl-render) {
         padding: var(--repl-render-padding, 0.5em 1em);
     }
-
 </style>

@@ -10,7 +10,7 @@
 
     type CodeJar = SvelteComponent;
 
-    export let element: HTMLElement;
+    export let element: HTMLElement | undefined = undefined;
 
     let _class: string = "";
     export let style: string = "";
@@ -42,7 +42,6 @@
     // I would rather integrate this here, rather than `svelte-codejar` proper. Incase the CodeJar library
     // is fixed and I wouldn't have to message with `svelte-codejar`
     $: handle = element ? InnerText(element, {on_innertext}) : null;
-
 </script>
 
 {#if CodeJar}
@@ -81,5 +80,4 @@
     :global(.repl-editor > *) {
         font-family: var(--repl-editor-font-family, monospace);
     }
-
 </style>

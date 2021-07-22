@@ -6,7 +6,6 @@
     export {_class as class};
 
     export let hidden: boolean = false;
-
 </script>
 
 <div
@@ -42,5 +41,4 @@
     :global(.repl-frame > *) {
         flex-grow: 1;
     }
-
 </style>

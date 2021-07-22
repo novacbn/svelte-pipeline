@@ -6,7 +6,6 @@
     export {_class as class};
 
     export let horizontal: boolean = false;
-
 </script>
 
 <div
@@ -42,5 +41,4 @@
     :global(.repl-stack[data-horizontal]) {
         flex-direction: row;
     }
-
 </style>

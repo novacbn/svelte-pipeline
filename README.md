@@ -4,7 +4,7 @@
 
 Provides custom Javascript contexts and the Svelte Compiler as Svelte Stores, for REPLs, Editors, etc.
 
-> **NOTE**: As this package includes the Svelte Compiler as a dependency, it seriously balloons the size of the distributables and bundles.
+> **IMPORTANT**: As this package includes the Svelte Compiler as a dependency, it seriously balloons the size of the distributables and bundles.
 
 ## Demo
 
@@ -15,7 +15,7 @@ See a demo of the REPL Components at [kahi-ui.nbn.dev/repl/samples/landing-page/
 ### Javascript
 
 ```javascript
-import {pipeline_javascript} from "svelte-pipeline";
+import {pipeline_javascript} from "@novacbn/svelte-pipeline";
 
 function add(a, b) {
     return a + b;
@@ -76,7 +76,7 @@ store_javascript.set(SCRIPT);
 ### Svelte
 
 ```javascript
-import {pipeline_svelte} from "svelte-pipeline";
+import {pipeline_svelte} from "@novacbn/svelte-pipeline";
 
 // First we need to define the Svelte Component source code we want to pass through the pipeline
 const COMPONENT = `<script>
@@ -134,9 +134,7 @@ store_svelte.set(COMPONENT);
 
 ### Split
 
-> TODO: Sample using `import {Split} from "svelte-pipeline/repl";`
-
-In the mean time, you can check out how it's used in the [Kahi UI documentation](https://github.com/novacbn/kahi-ui/blob/908e51394cb80819a5eb15ee0e3a4efd1cd86acf/packages/%40kahi-ui-docs/src/routes/repl/%5Bcategory%5D/%5Bdocumentation%5D/%5Bsnippet%5D.svelte#L71-L150).
+> TODO: Sample using `import {Split} from "@novacbn/svelte-pipeline/repl";`
 
 ## Developer
 
@@ -144,34 +142,55 @@ In the mean time, you can check out how it's used in the [Kahi UI documentation]
 
 Open your terminal and install via `npm`:
 
-```sh
-npm install github:novacbn/svelte-pipeline#0.1.2
+```bash
+npm install @novacbn/svelte-pipeline
 ```
 
 Install current in-development code:
 
-```sh
-npm install github:novacbn/svelte-pipeline
+```bash
+npm install @novacbn/svelte-pipeline
 ```
 
-### Documentation
+### Main API
 
-See TypeDoc documentation at [novacbn.github.io/svelte-pipeline](https://novacbn.github.io/svelte-pipeline)
-
-### API
+> `import {...} from "@novacbn/svelte-pipeline";`
 
 -   Stores
 
-    -   [`pipeline_javascript`](https://novacbn.github.io/svelte-pipeline/modules/_javascript_.html#pipeline_javascript)
-    -   [`pipeline_svelte`](https://novacbn.github.io/svelte-pipeline/modules/_svelte_.html#pipeline_svelte)
+    -   `pipeline_javascript`
+    -   `pipeline_svelte`
 
 -   Enumerations
 
-    -   [`PIPELINE_RESULT_TYPES`](https://novacbn.github.io/svelte-pipeline/enums/_pipeline_.pipeline_result_types.html)
+    -   `PIPELINE_RESULT_TYPES`
 
 -   Utilities
 
-    -   [`evaluate_code`](https://novacbn.github.io/svelte-pipeline/modules/_pipeline_.html#evaluate_code)
-    -   [`make_require`](https://novacbn.github.io/svelte-pipeline/modules/_pipeline_.html#make_require)
-    -   [`validate_code`](https://novacbn.github.io/svelte-pipeline/modules/_pipeline_.html#validate_code)
-    -   [`validate_svelte`](https://novacbn.github.io/svelte-pipeline/modules/_svelte_.html#validate_svelte)
+    -   `evaluate_code`
+    -   `make_require`
+    -   `validate_code`
+    -   `validate_svelte`
+
+### REPL API
+
+> `import {...} from "@novacbn/svelte-pipeline/repl";`
+
+-   Components
+
+    -   Inserts
+
+        -   `Component`
+        -   `Stylesheet`
+
+    -   Interface
+
+        -   `Divider`
+        -   `Editor`
+        -   `Frame`
+        -   `Render`
+        -   `Stack`
+
+    -   REPLs
+
+        -   `Split`

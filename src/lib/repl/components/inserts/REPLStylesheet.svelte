@@ -23,7 +23,6 @@
         document.head.appendChild(stylesheet);
         dispatch("stylesheetMount");
     });
-
 </script>
 
 <!--

@@ -1,14 +1,15 @@
 {
-    "name": "svelte-pipeline",
+    "name": "@novacbn/svelte-pipeline",
     "description": "Provides custom Javascript evaluation contexts and the Svelte Compiler as Svelte Stores, for REPLs, IDEs, etc.",
     "version": "0.1.2",
     "author": "novacbn",
     "type": "module",
-    "main": "package/index.js",
-    "typings": "package/types/index.d.ts",
+    "main": "index.js",
+    "types": "index.d.ts",
     "exports": {
-        ".": "./package/index.js",
-        "./repl": "./repl.js"
+        ".": "./index.js",
+        "./repl": "./repl/index.js",
+        "./package.json": "./package.json"
     },
     "keywords": [
         "compiler",
@@ -18,21 +19,25 @@
         "svelte-stores"
     ],
     "files": [
-        "package/components",
-        "package/repl",
-        "package/stores",
-        "package/types",
-        "package/index.js",
-        "package.json",
-        "index.d.ts",
-        "repl.js",
-        "repl.d.ts"
+        "repl",
+        "stores",
+        "CHANGELOG.md",
+        "LICENSE",
+        "README.md",
+        "index.js",
+        "index.d.ts"
     ],
     "scripts": {
-        "build": "npm run test:types && npm run build:lib && npm run build:types",
-        "build:lib": "svelte-kit package",
-        "build:types": "tsc --emitDeclarationOnly",
-        "build:typedoc": "typedoc --out ./package/docs/api --exclude '**/index.ts' --stripInternal --target es6 --theme minimal --mode modules src",
+        "format": "prettier --config .prettierrc --write ./",
+        "lint": "npm run lint:format",
+        "lint:format": "prettier --config .prettierrc --check ./",
+        "package": "npm run lint && npm run test && npm run package:lib",
+        "package:lib": "svelte-kit package",
+        "postversion": "git push && git push --tags && npm run release",
+        "release": "npm run package && npm run release:publish",
+        "release:publish": "npm publish ./package",
+        "test": "npm run test:types && npm run test:svelte",
+        "test:svelte": "svelte-check --tsconfig ./tsconfig.json",
         "test:types": "tsc --noEmit"
     },
     "dependencies": {
@@ -40,11 +45,13 @@
         "svelte-codejar": "github:novacbn/svelte-codejar#0.0.4"
     },
     "devDependencies": {
-        "@sveltejs/kit": "^1.0.0-next.113",
+        "@sveltejs/kit": "^1.0.0-next.134",
         "@tsconfig/svelte": "^2.0.1",
-        "prettier": "^2.0.5",
+        "prettier": "^2.3.2",
+        "prettier-plugin-svelte": "^2.3.1",
+        "svelte-check": "^2.2.3",
         "svelte-preprocess": "^4.7.3",
-        "tslib": "^2.2.0",
-        "typescript": "^4.3.2"
+        "svelte2tsx": "^0.4.2",
+        "typescript": "^4.3.5"
     }
 }

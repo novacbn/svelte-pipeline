@@ -34,7 +34,6 @@
     }
 
     $: component_update(Component);
-
 </script>
 
 <!--

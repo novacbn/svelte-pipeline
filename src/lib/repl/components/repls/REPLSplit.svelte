@@ -71,7 +71,6 @@
     $: split_style = horizontal
         ? `width:${view == REPL_VIEWS.editor ? 100 : split * 100}%;`
         : `height:${view == REPL_VIEWS.editor ? 100 : split * 100}%;`;
-
 </script>
 
 <REPLStack
@@ -116,5 +115,4 @@
     :global(.repl-split > .repl-frame-render) {
         flex-grow: 1;
     }
-
 </style>

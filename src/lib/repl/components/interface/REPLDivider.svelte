@@ -6,7 +6,6 @@
     export {_class as class};
 
     export let horizontal: boolean = false;
-
 </script>
 
 <span
@@ -87,5 +86,4 @@
     :global(.repl-divider[data-horizontal]::after) {
         height: var(--repl-divider-size, 1px);
     }
-
 </style>

@@ -9,10 +9,8 @@
         "downlevelIteration": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "resolveJsonModule": true,
-        "declarationDir": "package/types",
         "typeRoots": ["node_modules/@types"]
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules/*"]
+    "exclude": ["node_modules/*", "package/*"]
 }
