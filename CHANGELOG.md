@@ -3,7 +3,7 @@
 ## v0.2.0 - 2021/07/??
 
 -   **(BREAKING)** Published to NPM, reinstall via `npm install @novacbn/svelte-pipeline`.
--   **(BREAKING)** Changed package namespace from `import {...} from "svelte-pipeline";` -> `import {...} from "@novacbn/svelte-pipeline";`
+-   **(BREAKING)** Changed package namespace from `import {...} from "svelte-pipeline";` -> `import {...} from "@novacbn/svelte-pipeline";`.
 
 ## v0.1.2 - 2021/06/09
 
