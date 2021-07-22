@@ -8,7 +8,7 @@ Provides custom Javascript contexts and the Svelte Compiler as Svelte Stores, fo
 
 ## Demo
 
-See a demo of the REPL Components at [kahi-ui.nbn.dev/repl/samples/landing/hero-preview](https://kahi-ui.nbn.dev/repl/samples/landing/hero-preview/?rotation=horizontal)
+See a demo of the REPL Components at [kahi-ui.nbn.dev/repl/samples/landing-page/landing-preview](https://kahi-ui.nbn.dev/repl/samples/landing-page/landing-preview/?rotation=horizontal)
 
 ## Usage
 
@@ -135,6 +135,8 @@ store_svelte.set(COMPONENT);
 ### Split
 
 > TODO: Sample using `import {Split} from "svelte-pipeline/repl";`
+
+In the mean time, you can check out how it's used in the [Kahi UI documentation](https://github.com/novacbn/kahi-ui/blob/908e51394cb80819a5eb15ee0e3a4efd1cd86acf/packages/%40kahi-ui-docs/src/routes/repl/%5Bcategory%5D/%5Bdocumentation%5D/%5Bsnippet%5D.svelte#L71-L150).
 
 ## Developer
 
