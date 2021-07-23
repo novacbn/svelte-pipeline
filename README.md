@@ -136,6 +136,8 @@ store_svelte.set(COMPONENT);
 
 > TODO: Sample using `import {Split} from "@novacbn/svelte-pipeline/repl";`
 
+In the mean time, you can check out how it's used in the [Kahi UI documentation](https://github.com/kahi-framework/kahi-ui.nbn.dev/blob/beffb0a31db274fd19f0b95245682b112ff1d649/src/components/repl/REPLEditor.svelte).
+
 ## Developer
 
 ### Installation
