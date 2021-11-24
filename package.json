@@ -8,7 +8,7 @@
     "types": "index.d.ts",
     "exports": {
         ".": "./index.js",
-        "./repl": "./repl/index.js",
+        "./components": "./components/index.js",
         "./package.json": "./package.json"
     },
     "keywords": [
@@ -19,7 +19,8 @@
         "svelte-stores"
     ],
     "files": [
-        "repl",
+        "actions",
+        "components",
         "stores",
         "CHANGELOG.md",
         "LICENSE",
@@ -41,8 +42,7 @@
         "test:types": "tsc --noEmit"
     },
     "dependencies": {
-        "svelte": "^3.38.2",
-        "svelte-codejar": "github:novacbn/svelte-codejar#0.0.4"
+        "svelte": "^3.38.2"
     },
     "devDependencies": {
         "@sveltejs/kit": "^1.0.0-next.134",
