@@ -73,6 +73,8 @@
 
 <style>
     .pipeline-render-component {
+        position: relative;
+
         contain: strict;
         contain: strict style;
 
