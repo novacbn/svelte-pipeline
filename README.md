@@ -8,7 +8,7 @@ Provides custom Javascript contexts and the Svelte Compiler as Svelte Stores, fo
 
 ## Demo
 
-See a demo of the REPL Components at [kahi-ui.nbn.dev/repl/docs/samples/landing-page/landing-preview](https://kahi-ui.nbn.dev/repl/docs/samples/landing-page/landing-preview/?rotation=horizontal)
+See a demo of the REPL Components at [kahi-ui.nbn.dev/playground](https://kahi-ui.nbn.dev/playground).
 
 ## Usage
 
@@ -130,13 +130,9 @@ store_svelte.subscribe((result) => {
 store_svelte.set(COMPONENT);
 ```
 
-## REPLs
+## Components
 
-### Split
-
-> TODO: Sample using `import {Split} from "@novacbn/svelte-pipeline/repl";`
-
-In the mean time, you can check out how it's used in the [Kahi UI documentation](https://github.com/kahi-framework/kahi-ui.nbn.dev/blob/beffb0a31db274fd19f0b95245682b112ff1d649/src/components/repl/REPLEditor.svelte).
+...
 
 ## Developer
 
@@ -148,15 +144,14 @@ Open your terminal and install via `npm`:
 npm install @novacbn/svelte-pipeline
 ```
 
-Install current in-development code:
-
-```bash
-npm install @novacbn/svelte-pipeline
-```
-
 ### Main API
 
 > `import {...} from "@novacbn/svelte-pipeline";`
+
+-   Actions
+
+    -   `component`
+    -   `stylesheet`
 
 -   Stores
 
@@ -174,25 +169,10 @@ npm install @novacbn/svelte-pipeline
     -   `validate_code`
     -   `validate_svelte`
 
-### REPL API
+### Components API
 
-> `import {...} from "@novacbn/svelte-pipeline/repl";`
+> `import {...} from "@novacbn/svelte-pipeline/components";`
 
 -   Components
 
-    -   Inserts
-
-        -   `Component`
-        -   `Stylesheet`
-
-    -   Interface
-
-        -   `Divider`
-        -   `Editor`
-        -   `Frame`
-        -   `Render`
-        -   `Stack`
-
-    -   REPLs
-
-        -   `Split`
+    -   `PipelineRenderComponent`

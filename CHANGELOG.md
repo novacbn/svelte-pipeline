@@ -1,6 +1,39 @@
 # CHANGELOG
 
-## v0.2.0 - 2021/07/??
+## UNRELEASED
+
+-   **(BREAKING)** Changed Component namespace from `import {...} from "@novacbn/svelte-pipeline/repl";` -> `import {...} from "@novacbn/svelte-pipeline/components";`.
+-   **(BREAKING)** Removed existing UI Components refocusing library to only rendering resulting compiled Svelte code, no longer providing primitive REPL Components.
+
+-   Added the following Actions / Action Features
+
+    -   `component` — Mounts a Svelte Component inside of the target containing element, providing lifecycle + error events.
+
+        -   `component(..., {on_destroy: (component: SvelteComponent) => void})` — Fires the event right before the previously mounted Component is destroyed.
+        -   `component(..., {on_error: (error: Error) => void})` — Fires the event whenever there's an error during mounting.
+        -   `component(..., {on_mount: (component: SvelteComponent) => void})` — Fires event event right after a new Component is compiled and mounted.
+
+        -   `component(..., {Component: typeof SvelteComponent})` — Sets the Svelte Component to be mounted.
+        -   `component(..., {context: Record<any, any>})` — Sets the Svelte Contexts passed along whenever the Component is mounted.
+        -   `component(..., {props: Record<string, any>})` — Sets the properties passed along whenever the Component is mounted.
+
+    -   `stylesheet` — Mounts a new `<style>` element inside of the target containing element, allowing for dynamic styles.
+
+        -   `stylesheet(..., {stylesheet: string})` — Sets the current text value of the `<style>` element.
+
+-   Added the following Components / Component Features
+
+    -   `<PipelineRenderComponent>` — Renders the result of a given `pipeline_svelte` Svelte Store, with [CSS containment](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Containment) enabled.
+
+        -   `<PipelineRenderComponent on:destroy={CustomEvent<{component: SvelteComponent}>}>` — Fires the event right before the previously mounted Component is destroyed.
+        -   `<PipelineRenderComponent on:error={CustomEvent<{error: Error}>}>` — Fires the event whenever there's a compilation error or an error during mounting.
+        -   `<PipelineRenderComponent on:mount={CustomEvent<{component: SvelteComponent}>}>` — Fires event event right after a new Component is compiled and mounted.
+
+        -   `<PipelineRenderComponent class={string}>` — Sets the CSS class names applied to the Component.
+        -   `<PipelineRenderComponent style={string}>` — Sets the inline CSS rules applied to the Component.
+        -   `<PipelineRenderComponent pipeline={IPipelineSvelteStore} />` — Sets the Svelte Store being listened to for results.
+
+## v0.2.0 - 2021/07/22
 
 -   **(BREAKING)** Published to NPM, reinstall via `npm install @novacbn/svelte-pipeline`.
 -   **(BREAKING)** Changed package namespace from `import {...} from "svelte-pipeline";` -> `import {...} from "@novacbn/svelte-pipeline";`.
