@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## UNRELEASED
+## v0.3.0 - 2021/11/26
 
 -   **(BREAKING)** Changed Component namespace from `import {...} from "@novacbn/svelte-pipeline/repl";` -> `import {...} from "@novacbn/svelte-pipeline/components";`.
 -   **(BREAKING)** Removed existing UI Components refocusing library to only rendering resulting compiled Svelte code, no longer providing primitive REPL Components.
