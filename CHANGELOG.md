@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.3.1 - 2022/03/07
+
+-   `component`
+
+    -   **(BREAKING)** `component(..., {context: Map<string, any>})` — Updated to use `Map` instead of `Record` due to data loss of non-string keys.
+
+-   `PipelineRenderComponent`
+
+    -   `<PipelineRenderComponent context={Map<any, any>}>` — Added support for configuring the rendered Component's available [Svelte Contexts](https://svelte.dev/docs#run-time-svelte-getcontext).
+
 ## v0.3.0 - 2021/11/26
 
 -   **(BREAKING)** Changed Component namespace from `import {...} from "@novacbn/svelte-pipeline/repl";` -> `import {...} from "@novacbn/svelte-pipeline/components";`.
