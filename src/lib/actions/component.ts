@@ -47,7 +47,7 @@ export interface IComponentOptions {
     /**
      * Represents the optional Svelte Context that will be passed onto the Component
      */
-    context: Record<any, any>;
+    context: Map<any, any>;
 
     /**
      * Represents the optional properties that will be passed into the Component
@@ -70,7 +70,7 @@ export function component(
     element: HTMLElement,
     options: Partial<IComponentOptions> = {}
 ): IComponentHandle {
-    let {on_destroy, on_error, on_mount, Component, context = {}, props = {}} = options;
+    let {on_destroy, on_error, on_mount, Component, context = new Map(), props = {}} = options;
     let component: SvelteComponent | null = null;
 
     element.setAttribute("data-pipeline-component", "true");
@@ -91,11 +91,11 @@ export function component(
             component = new Component({
                 target: element,
 
-                context: new Map(Object.entries(context)),
+                context,
                 props,
             });
         } catch (err) {
-            if (on_error) on_error(err);
+            if (on_error) on_error(err as Error);
             return;
         }
 
@@ -115,7 +115,7 @@ export function component(
             ({on_destroy, on_error, on_mount} = options);
 
             if (options.Component !== Component || options.context !== context) {
-                ({Component, context = {}, props = {}} = options);
+                ({Component, context = new Map(), props = {}} = options);
 
                 try_mount();
             } else if (options.props !== props) {
