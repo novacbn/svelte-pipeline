@@ -1,6 +1,6 @@
 <script lang="ts">
     import type {SvelteComponent} from "svelte";
-    import {createEventDispatcher} from "svelte";
+    import {createEventDispatcher, getAllContexts} from "svelte";
 
     import {component} from "../actions/component";
     import {stylesheet} from "../actions/stylesheet";
@@ -25,6 +25,7 @@
     export let style: string | undefined = undefined;
     export {_class as class};
 
+    export let context: Map<any, any> = getAllContexts();
     export let pipeline: IPipelineSvelteStore;
 
     let evaluation: IPipelineSvelteEvaluated | null = null;
@@ -67,6 +68,7 @@
         on_destroy: on_component_destroy,
         on_error: on_component_error,
         on_mount: on_component_mount,
+        context,
         Component: evaluation?.module.exports.default ?? undefined,
     }}
 />
